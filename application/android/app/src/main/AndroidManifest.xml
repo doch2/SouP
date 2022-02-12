@@ -1,5 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.itlabxor.soup">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+
    <application
         android:label="application"
         android:icon="@mipmap/ic_launcher">
