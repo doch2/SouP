@@ -29,7 +29,7 @@ class _MainScreenState extends State<MainScreen> {
           icon: Icon(Icons.home_filled)
       ),
       BottomNavigationBarItem(
-          label: "매매 변경",
+          label: "매매 설정",
           icon: Icon(Icons.settings)
       ),
       BottomNavigationBarItem(
@@ -39,18 +39,23 @@ class _MainScreenState extends State<MainScreen> {
     ];
 
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: Colors.black,
-        unselectedItemColor: Colors.grey.withOpacity(0.6),
-        selectedFontSize: 12,
-        currentIndex: _selectIndex,
-        onTap: (int index) {
-          setState(() {
-            _selectIndex = index;
-          });
-        },
-        items: bottomNavigatorItem,
+      extendBody: true,
+      bottomNavigationBar: ClipRRect(
+        borderRadius: BorderRadius.only(topRight: Radius.circular(10), topLeft: Radius.circular(10)),
+        child: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: Colors.white,
+          selectedItemColor: Colors.black,
+          unselectedItemColor: Colors.grey.withOpacity(0.6),
+          selectedFontSize: 12,
+          currentIndex: _selectIndex,
+          onTap: (int index) {
+            setState(() {
+              _selectIndex = index;
+            });
+          },
+          items: bottomNavigatorItem,
+        ),
       ),
       body: pages[_selectIndex]
     );
