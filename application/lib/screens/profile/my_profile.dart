@@ -7,7 +7,7 @@ class MyProfile extends GetWidget<UserController> {
   MyProfile({Key? key}) : super(key: key);
 
   late double _height, _width;
-  AuthController authController = Get.find<AuthController>();
+  final AuthController authController = Get.find<AuthController>();
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +17,8 @@ class MyProfile extends GetWidget<UserController> {
 
     return Scaffold(
       body: Center(
-        child: Stack(
-          alignment: Alignment.center,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text("Profile"),
             GestureDetector(onTap: () => authController.logOut(), child: Icon(Icons.logout))

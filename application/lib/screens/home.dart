@@ -48,10 +48,10 @@ class Home extends StatelessWidget {
                     "안녕하세요!",
                     style: homeHello,
                   ),
-                  Text(
+                  Obx(() => Text(
                     "${userController.user.name}님",
                     style: homeUserName,
-                  )
+                  ))
                 ],
               ),
             ),
