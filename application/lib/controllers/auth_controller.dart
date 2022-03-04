@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -11,6 +10,8 @@ import 'package:soup/services/firestore_database.dart';
 
 class AuthController extends GetxController {
   FirebaseAuth authInstance = FirebaseAuth.instance;
+  UserController _userController = Get.find<UserController>();
+  FirestoreDatabase _firestoreDatabase = FirestoreDatabase();
 
   Rxn<User> _firebaseUser = Rxn<User>();
   User? get user => _firebaseUser.value;
@@ -19,14 +20,12 @@ class AuthController extends GetxController {
 
   RxBool isLogin = false.obs;
 
-  final Dio _dio = Get.find<Dio>();
-
 
   @override
   onInit() async {
     _firebaseUser.bindStream(authInstance.authStateChanges());
     _firebaseUser.value = authInstance.currentUser;
-    if (user != null) { Get.find<UserController>().user = await FirestoreDatabase().getUser(user!.uid); }
+    if (user != null) { _userController.user = await _firestoreDatabase.getUser(user!.uid); }
   }
 
   void signInWithGoogle() async {
@@ -83,6 +82,13 @@ class AuthController extends GetxController {
       id: loginUserInfo["userid"],
       email: loginUserInfo["email"],
       name: loginUserInfo["name"],
+      isTradeOn: false,
+      tradeSetting: {
+        "accuracyPercentage": 0,
+        "tradePercentage": 0,
+        "stockAmount": 0,
+        "tradingMethod": "시장가"
+      },
     );
 
     await FirebaseFirestore.instance
@@ -92,12 +98,12 @@ class AuthController extends GetxController {
         .then((doc) async {
       if (doc.exists) {
         print("User info is already exist");
+        Get.find<UserController>().user = await FirestoreDatabase().getUser(user?.uid);
       } else {
         await FirestoreDatabase().createNewUser(_user);
+        Get.find<UserController>().user = _user;
       }
     }
     );
-
-    Get.find<UserController>().user = _user;
   }
 }
