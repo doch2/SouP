@@ -37,7 +37,7 @@ class MyProfile extends GetWidget<UserController> {
               footer(),
               userInfo(authController),
               GetDeposit(),
-              recommandStock([
+              ownedStock([
                 StockModel(stockId: "005930", name: "삼성전자"),
                 StockModel(stockId: "035720", name: "카카오"),
                 StockModel(stockId: "247540", name: "에코프로비엠"),
@@ -79,6 +79,7 @@ class MyProfile extends GetWidget<UserController> {
           //crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CircleAvatar(
+              child: FlutterLogo(size: 50),
               radius: 50,
             ),
             Text(
@@ -113,7 +114,7 @@ class MyProfile extends GetWidget<UserController> {
     );
   }
 
-  Widget recommandStock(List<StockModel> list, context) {
+  Widget ownedStock(List<StockModel> list, context) {
     return Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: Container(
