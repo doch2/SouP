@@ -5,6 +5,7 @@ import 'package:soup/controllers/auth_controller.dart';
 import 'package:soup/controllers/user_controller.dart';
 import 'package:soup/models/stock.dart';
 import 'package:soup/themes/text_theme.dart';
+import 'package:soup/widget/bottomdesign.dart';
 import 'package:soup/widget/stocklist.dart';
 
 class MyProfile extends GetWidget<UserController> {
@@ -22,16 +23,7 @@ class MyProfile extends GetWidget<UserController> {
         body: SafeArea(
       child: Stack(
         children: [
-          Positioned(
-            bottom: -(_height * 0.075),
-            child: Hero(
-              tag: "bottomDesign",
-              child: Image.asset(
-                "assets/images/background_cloud.png",
-                width: _width,
-              ),
-            ),
-          ),
+          BottomDesign(width: _width, height: _height),
           Padding(
             padding: EdgeInsets.all(24),
             child: Column(children: [
@@ -117,17 +109,6 @@ class MyProfile extends GetWidget<UserController> {
           )
         ],
       ),
-    );
-  }
-
-  Widget bottomDesign() {
-    return Column(
-      children: [
-        Image.asset(
-          "assets/images/background_cloud.png",
-          width: _width,
-        ),
-      ],
     );
   }
 }

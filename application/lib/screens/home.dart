@@ -5,6 +5,7 @@ import 'package:soup/controllers/user_controller.dart';
 import 'package:soup/models/stock.dart';
 import 'package:soup/themes/color_theme.dart';
 import 'package:soup/themes/text_theme.dart';
+import 'package:soup/widget/bottomdesign.dart';
 import 'package:soup/widget/stocklist.dart';
 
 class Home extends StatelessWidget {
@@ -30,16 +31,7 @@ class Home extends StatelessWidget {
             width: _width,
             height: _height,
           ),
-          Positioned(
-            bottom: -(_height * 0.075),
-            child: Hero(
-              tag: "bottomDesign",
-              child: Image.asset(
-                "assets/images/background_cloud.png",
-                width: _width,
-              ),
-            ),
-          ),
+          BottomDesign(width: _width, height: _height),
           Positioned(
             top: _height * 0.125,
             left: _width * 0.1,

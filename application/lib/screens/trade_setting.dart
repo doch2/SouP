@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
 import 'package:soup/controllers/trade_controller.dart';
+import 'package:soup/widget/bottomdesign.dart';
 
 import '../themes/color_theme.dart';
 import '../themes/text_theme.dart';
@@ -24,6 +25,7 @@ class TradeSetting extends GetWidget<TradeController> {
         child: Stack(
           alignment: Alignment.center,
           children: [
+            BottomDesign(width: _width, height: _height),
             Container(width: _width, height: _height),
             Positioned(
               top: _height * 0.15,
