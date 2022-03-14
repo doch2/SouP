@@ -14,8 +14,29 @@ class TradeController extends GetxController {
   final tradePercentageTextController = TextEditingController();
   final stockAmountTextController = TextEditingController();
 
+  final accuracyPercentagefocusnode = FocusNode();
+  final tradePercentagefocusnode = FocusNode();
+  final stockAmountfocusnode = FocusNode();
+  final scroll = ScrollController();
+
   RxBool isTradeTurnOn = true.obs;
   RxString isTradingMethod = "".obs;
+
+  void onInit() {
+    stockAmountfocusnode.addListener(() {
+      scroll.animateTo(
+        -10000,
+        duration: Duration(milliseconds: 200),
+        curve: Curves.easeInOut,
+      );
+    });
+
+    super.onInit();
+  }
+
+  void onClose() {
+    super.onClose();
+  }
 
   checkUserTradeStatus() async {
     bool? isAllow = userController.user.isTradeOn;
@@ -28,7 +49,8 @@ class TradeController extends GetxController {
     try {
       _firestoreDatabase.setUserTradeStatus(isTradeTurnOn.value);
 
-      userController.user = await FirestoreDatabase().getUser(_authController.user?.uid);
+      userController.user =
+          await FirestoreDatabase().getUser(_authController.user?.uid);
 
       _showToast("저장에 성공하였습니다.");
     } catch (e) {
@@ -43,6 +65,5 @@ class TradeController extends GetxController {
       timeInSecForIosWeb: 1,
       backgroundColor: Color(0xE6FFFFFF),
       textColor: Colors.black,
-      fontSize: 13.0
-  );
+      fontSize: 13.0);
 }
