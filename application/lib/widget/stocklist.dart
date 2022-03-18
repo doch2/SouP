@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+import 'package:soup/controllers/stock_controller.dart';
 import 'package:soup/models/stock.dart';
+import 'package:soup/screens/stock_page.dart';
 import 'package:soup/themes/text_theme.dart';
 
 class StockList extends StatelessWidget {
@@ -8,13 +11,15 @@ class StockList extends StatelessWidget {
   final double height;
   final List<StockModel> list;
   final bool recommanded;
-  const StockList(
+  StockList(
       {Key? key,
       required this.height,
       required this.width,
       required this.list,
       this.recommanded = true})
       : super(key: key);
+
+  StockController controller = Get.find<StockController>();
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +49,8 @@ class StockList extends StatelessWidget {
                       child: GestureDetector(
                         onTap: () {
                           _showToast("${list[i].name}(${list[i].stockId})로 이동");
+                          controller.ticker.value = list[i].stockId!;
+                          Get.dialog(StockPage());
                         },
                         child: Row(
                           children: [
