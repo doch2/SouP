@@ -49,7 +49,7 @@ class StockList extends StatelessWidget {
                       child: GestureDetector(
                         onTap: () {
                           _showToast("${list[i].name}(${list[i].stockId})로 이동");
-                          controller.ticker.value = list[i].stockId!;
+                          controller.getStock(list[i].stockId!);
                           Get.dialog(StockPage());
                         },
                         child: Row(
