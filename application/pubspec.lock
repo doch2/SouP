@@ -78,6 +78,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.4"
+  equatable:
+    dependency: transitive
+    description:
+      name: equatable
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.3"
   fake_async:
     dependency: transitive
     description:
@@ -198,6 +205,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.10.0+4"
+  http:
+    dependency: transitive
+    description:
+      name: http
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.13.4"
   http_parser:
     dependency: transitive
     description:
@@ -364,6 +378,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.3.1"
+  yahoofin:
+    dependency: "direct main"
+    description:
+      name: yahoofin
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.8"
 sdks:
   dart: ">=2.14.0 <3.0.0"
   flutter: ">=2.5.0"
