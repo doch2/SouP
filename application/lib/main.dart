@@ -76,7 +76,11 @@ Future<void> initializeService() async {
 // run app from xcode, then from xcode menu, select Simulate Background Fetch
 void onIosBackground() {
   WidgetsFlutterBinding.ensureInitialized();
-  print('FLUTTER BACKGROUND FETCH');
+  int i = 0;
+  Timer.periodic(Duration(seconds: 5), (timer) {
+    print("Test $i");
+    i++;
+  });
 }
 
 void onStart() {
@@ -107,7 +111,7 @@ void onStart() {
   Timer.periodic(const Duration(seconds: 1), (timer) async {
     if (!(await service.isRunning())) timer.cancel();
     service.setNotificationInfo(
-      title: "My App Service",
+      title: "투자 진행중입니다...",
       content: "Updated at ${DateTime.now()}",
     );
 
