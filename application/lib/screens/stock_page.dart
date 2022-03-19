@@ -70,7 +70,26 @@ class StockPage extends StatelessWidget {
                 width: _width,
                 height: _height,
                 text: "주식 구매하기",
-              )
+              ),
+              const SizedBox(
+                height: 36,
+              ),
+              GestureDetector(
+                onTap: () {
+                  Get.back();
+                },
+                child: Center(
+                    child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("나가기"),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Icon(Icons.logout)
+                  ],
+                )),
+              ),
             ]),
           ),
         ],
