@@ -33,4 +33,17 @@ class StockController extends GetxController with StateMixin {
     price.value = await yfin.getPrice(stockInfo: info.value);
     change(null, status: RxStatus.success());
   }
+
+  getRealtimeStock() {
+    if (isRealtime.isFalse) {
+      isRealtime.value = true;
+
+      timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
+        price.value = await yfin.getPrice(stockInfo: info.value);
+      });
+    } else {
+      isRealtime.value = false;
+      timer!.cancel();
+    }
+  }
 }
