@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:soup/controllers/stock_controller.dart';
+import 'package:soup/themes/text_theme.dart';
 import 'package:soup/widget/bottomdesign.dart';
+import 'package:soup/widget/soupbutton.dart';
 
 class StockPage extends StatelessWidget {
   StockPage({Key? key}) : super(key: key);
@@ -35,26 +37,27 @@ class StockPage extends StatelessWidget {
                 final res = controller.info.value.res;
                 final body = json.decode(res.body);
 
-                return Text(
-                    "${body['quoteResponse']['result'][0]['longName']} : ${controller.price.value.currentPrice}원");
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      "${controller.price.value.currentPrice}원",
+                      style: homeUserName,
+                    ),
+                    Text(
+                      "${body['quoteResponse']['result'][0]['longName']}",
+                      style: homeHello,
+                    ),
+                  ],
+                );
               }, onLoading: CircularProgressIndicator()),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {},
-                    child: Text("구매"),
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.red)),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {},
-                    child: Text("판매"),
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.blue)),
-                  ),
-                ],
+              SizedBox(
+                height: 36,
+              ),
+              SoupButton(
+                width: _width,
+                height: _height,
+                text: "주식 구매하기",
               )
             ]),
           ),
