@@ -79,7 +79,7 @@ class Home extends StatelessWidget {
                 StockModel(stockId: "005380", name: "현대차"),
                 StockModel(stockId: "089980", name: "상아프론테크"),
               ],
-              recommanded: false,
+              recommanded: true,
             ),
           )
         ],
