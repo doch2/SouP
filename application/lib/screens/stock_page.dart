@@ -41,19 +41,18 @@ class StockPage extends StatelessWidget {
                 final marketState =
                     body['quoteResponse']['result'][0]['marketState'];
 
-                printLongString(res.body);
-
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Obx(() => Text("${controller.i}")),
                     Text(
                       "$stockName",
                       style: homeHello,
                     ),
-                    Text(
-                      "${controller.price.value.currentPrice} KRW",
-                      style: homeUserName,
-                    ),
+                    Obx(() => Text(
+                          "${controller.price.value.currentPrice} KRW",
+                          style: homeUserName,
+                        )),
                     Text(
                       marketState == "CLOSED"
                           ? "장이 마감되었습니다"
@@ -70,6 +69,15 @@ class StockPage extends StatelessWidget {
                 width: _width,
                 height: _height,
                 text: "주식 구매하기",
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              SoupButton(
+                width: _width,
+                height: _height,
+                text: "실시간 정보 가져오기",
+                onTap: () => controller.getRealtimeStock(),
               ),
               const SizedBox(
                 height: 36,

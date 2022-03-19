@@ -15,7 +15,7 @@ class StockController extends GetxController with StateMixin {
   Rx<StockQuote> price = Rx(StockQuote());
 
   Timer? timer;
-  int i = 0; //Test Variable
+  RxInt i = 0.obs; //Test Variable
 
   @override
   void onInit() async {
@@ -35,15 +35,23 @@ class StockController extends GetxController with StateMixin {
   }
 
   getRealtimeStock() {
-    if (isRealtime.isFalse) {
+    print(isRealtime.value);
+
+    if (isRealtime.value == false) {
+      print("Start");
+
       isRealtime.value = true;
 
       timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
+        print("GO");
         price.value = await yfin.getPrice(stockInfo: info.value);
+        i.value++;
       });
     } else {
+      print("Stop");
       isRealtime.value = false;
       timer!.cancel();
+      i.value = 0;
     }
   }
 }
