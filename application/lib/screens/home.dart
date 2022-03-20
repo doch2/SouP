@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:soup/controllers/trade_controller.dart';
 import 'package:soup/controllers/user_controller.dart';
 import 'package:soup/models/stock.dart';
 import 'package:soup/themes/color_theme.dart';
@@ -13,6 +14,7 @@ class Home extends StatelessWidget {
 
   late double _height, _width;
   late UserController userController;
+  late TradeController tradeController;
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +22,7 @@ class Home extends StatelessWidget {
     _width = MediaQuery.of(context).size.width;
 
     userController = Get.find<UserController>();
+    tradeController = Get.find<TradeController>();
 
     return Scaffold(
       body: Center(
@@ -81,6 +84,16 @@ class Home extends StatelessWidget {
               ],
               recommanded: false,
             ),
+          ),
+          Positioned(
+            bottom: _height * 0.05,
+            child: GestureDetector(
+              onTap: () {
+                print("Clicked");
+                tradeController.loginEbestStock();
+              },
+              child: Text("xingAPI 기능 테스트 버튼"),
+            )
           )
         ],
       )),

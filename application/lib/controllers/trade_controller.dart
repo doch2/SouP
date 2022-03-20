@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:soup/controllers/auth_controller.dart';
@@ -9,6 +10,8 @@ class TradeController extends GetxController {
   FirestoreDatabase _firestoreDatabase = FirestoreDatabase();
   final AuthController _authController = Get.find<AuthController>();
   final UserController userController = Get.find<UserController>();
+
+  static const platform = MethodChannel('com.itlabxor.soup/xingapi');
 
   final accuracyPercentageTextController = TextEditingController();
   final tradePercentageTextController = TextEditingController();
@@ -36,6 +39,10 @@ class TradeController extends GetxController {
 
   void onClose() {
     super.onClose();
+  }
+
+  loginEbestStock() async {
+    bool isSuccess = await platform.invokeMethod("loginEbestSign");
   }
 
   checkUserTradeStatus() async {
