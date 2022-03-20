@@ -147,7 +147,7 @@ class TradeSetting extends GetWidget<TradeController> {
                 child: SoupButton(
                   width: _width,
                   height: _height,
-                  text: "주식 구매하기",
+                  text: "설정 변경하기",
                   onTap: () => controller.storeTradeSetting(),
                 ))
           ],
