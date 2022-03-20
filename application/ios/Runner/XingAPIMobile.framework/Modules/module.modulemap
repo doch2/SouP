@@ -1,0 +1,6 @@
+framework module XingAPIMobile {
+  umbrella header "XingAPIMobile.h"
+
+  export *
+  module * { export * }
+}
