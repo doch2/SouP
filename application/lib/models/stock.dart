@@ -9,3 +9,21 @@ class StockModel {
     name = Json["name"];
   }
 }
+
+class StockInfo {
+  String? stockName;
+  String? marketState;
+  double? marketPrice;
+  double? bid;
+  double? ask;
+  StockInfo(
+      {this.stockName, this.marketState, this.marketPrice, this.bid, this.ask});
+
+  StockInfo.fromJson({body}) {
+    stockName = body['quoteResponse']['result'][0]['longName'];
+    marketState = body['quoteResponse']['result'][0]['marketState'];
+    marketPrice = body['quoteResponse']['result'][0]['regularMarketPrice'];
+    bid = body['quoteResponse']['result'][0]['bid']; //주식 팔떄
+    ask = body['quoteResponse']['result'][0]['ask']; //주식 살때
+  }
+}
