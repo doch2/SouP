@@ -10,16 +10,16 @@ class StockModel {
   }
 }
 
-class StockInfo {
+class StockInformation {
   String? stockName;
   String? marketState;
   double? marketPrice;
   double? bid;
   double? ask;
-  StockInfo(
+  StockInformation(
       {this.stockName, this.marketState, this.marketPrice, this.bid, this.ask});
 
-  StockInfo.fromJson({body}) {
+  StockInformation.fromJson({body}) {
     stockName = body['quoteResponse']['result'][0]['longName'];
     marketState = body['quoteResponse']['result'][0]['marketState'];
     marketPrice = body['quoteResponse']['result'][0]['regularMarketPrice'];
