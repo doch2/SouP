@@ -42,14 +42,14 @@ class StockController extends GetxController with StateMixin {
     change(null, status: RxStatus.success());
   }
 
-  String getCurrentState(String state) {
-    if (state == "CLOSED") {
+  String getCurrentState() {
+    if (stockInform.value.marketState == "CLOSED") {
       return "장이 마감되었습니다";
-    } else if (state == "REGULAR") {
+    } else if (stockInform.value.marketState == "REGULAR") {
       return "현재 매매거래가 가능한 시간입니다";
-    } else if (state == "PRE") {
+    } else if (stockInform.value.marketState == "PRE") {
       return "현재 장외거래가 가능한 시간입니다. (프리)";
-    } else if (state == "POST") {
+    } else if (stockInform.value.marketState == "POST") {
       return "현재 장외거래가 가능한 시간입니다. (애프터)";
     } else {
       return "정보를 불러오지 못했습니다.";
