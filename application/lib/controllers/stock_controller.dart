@@ -31,9 +31,9 @@ class StockController extends GetxController with StateMixin {
     } else if (stockInform.value.marketState == "REGULAR") {
       return "현재 매매거래가 가능한 시간입니다";
     } else if (stockInform.value.marketState == "PRE") {
-      return "현재 장외거래가 가능한 시간입니다. (프리)";
+      return "현재 장외거래가 가능한 시간입니다.";
     } else if (stockInform.value.marketState == "POST") {
-      return "현재 장외거래가 가능한 시간입니다. (애프터)";
+      return "현재 장외거래가 가능한 시간입니다.";
     } else {
       return "정보를 불러오지 못했습니다.";
     }
