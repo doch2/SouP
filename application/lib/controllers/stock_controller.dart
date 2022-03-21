@@ -25,23 +25,6 @@ class StockController extends GetxController with StateMixin {
     super.onInit();
   }
 
-  getStock() async {
-    change(null, status: RxStatus.loading());
-    String symbol = ticker + ".KS";
-
-    (await yfin.checkSymbol(symbol)) ? null : symbol = ticker + ".KQ";
-
-    info.value = yfin.getStockInfo(ticker: symbol);
-    price.value = await yfin.getPrice(stockInfo: info.value);
-
-    final res = info.value.res;
-    final body = json.decode(res.body);
-
-    stockInform.value = StockInformation.fromJson(body: body);
-
-    change(null, status: RxStatus.success());
-  }
-
   String getCurrentState() {
     if (stockInform.value.marketState == "CLOSED") {
       return "장이 마감되었습니다";
@@ -54,25 +37,33 @@ class StockController extends GetxController with StateMixin {
     } else {
       return "정보를 불러오지 못했습니다.";
     }
-
     //POST,PRE는 해외주식에만?
   }
 
+  getStockInfo(String symbol) {
+    info.value = yfin.getStockInfo(ticker: symbol);
+    final res = info.value.res;
+    final body = json.decode(res.body);
+    stockInform.value = StockInformation.fromJson(body: body);
+  }
+
+  getStock() async {
+    change(null, status: RxStatus.loading());
+    String symbol = ticker + ".KS";
+    (await yfin.checkSymbol(symbol)) ? null : symbol = ticker + ".KQ";
+    getStockInfo(symbol);
+    price.value = await yfin.getPrice(stockInfo: info.value);
+    change(null, status: RxStatus.success());
+  }
+
   getRealtimeStock() {
-    print(isRealtime.value);
-
     if (isRealtime.value == false) {
-      print("Start");
-
       isRealtime.value = true;
-
       timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
-        print("GO");
-        price.value = await yfin.getPrice(stockInfo: info.value);
+        getStockInfo(info.value.ticker!);
         i.value++;
       });
     } else {
-      print("Stop");
       isRealtime.value = false;
       timer!.cancel();
       i.value = 0;
