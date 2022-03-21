@@ -34,29 +34,20 @@ class StockPage extends StatelessWidget {
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               controller.obx((state) {
-                final res = controller.info.value.res;
-                final body = json.decode(res.body);
-                final stockName =
-                    body['quoteResponse']['result'][0]['longName'];
-                final marketState =
-                    body['quoteResponse']['result'][0]['marketState'];
-
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Obx(() => Text("${controller.i}")),
                     Text(
-                      "$stockName",
+                      "${controller.stockInform.value.stockName}",
                       style: homeHello,
                     ),
                     Obx(() => Text(
-                          "${controller.price.value.currentPrice} KRW",
+                          "${controller.stockInform.value.marketPrice} KRW",
                           style: homeUserName,
                         )),
                     Text(
-                      marketState == "CLOSED"
-                          ? "장이 마감되었습니다"
-                          : "현재 매매거래가 가능한 시간입니다",
+                      controller.getCurrentState(),
                       style: loginSubTitle,
                     ),
                   ],
