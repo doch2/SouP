@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:soup/controllers/stock_controller.dart';
+import 'package:soup/models/stock.dart';
 import 'package:soup/themes/text_theme.dart';
 import 'package:soup/widget/bottomdesign.dart';
 import 'package:soup/widget/soupbutton.dart';
@@ -34,10 +35,13 @@ class StockPage extends StatelessWidget {
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               controller.obx((state) {
+                final res = controller.info.value.res;
+                final body = json.decode(res.body);
+                controller.stockInform.value =
+                    StockInformation.fromJson(body: body);
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Obx(() => Text("${controller.i}")),
                     Text(
                       "${controller.stockInform.value.stockName}",
                       style: homeHello,
