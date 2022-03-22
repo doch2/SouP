@@ -23,23 +23,7 @@ import XingAPIMobile
                       var loginData = LOGIN_DATA(m_apihandle, connect_server: SERVER_TYPE.API_SERVER)
                       loginData.showLoginView = true
                       
-                      let pubCertList = eBESTAPI.getSignList();
-                      if pubCertList.count > 0 {
-                          loginData.pubCertIdx = 0
-                          loginData.pubCertPwd = ""
-                          loginData.showLoginView = false
-                          eBESTAPI.login(controller, loginData: loginData)
-                          
-                      } else {
-                          if loginData.showLoginView {
-                              //1. 공인인증 로그인 화면
-                              eBESTAPI.login(controller, loginData: loginData)
-                          } else {
-                              //2. 인증서 가져오기
-                              eBESTAPI.copyPubCert(controller, handle: m_apihandle)
-                          }
-                      }
-                  }
+                      eBESTAPI.login(controller, loginData: loginData)                  }
 
                   result(true)
               default:
