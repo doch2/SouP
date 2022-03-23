@@ -1,3 +1,4 @@
+import 'package:soup/controllers/stock_controller.dart';
 import 'package:soup/controllers/user_controller.dart';
 import 'package:soup/controllers/auth_controller.dart';
 import 'package:soup/controllers/trade_controller.dart';
@@ -13,5 +14,6 @@ class MainBinding extends Bindings {
     Get.put<AuthController>(AuthController(), permanent: true);
 
     Get.put<TradeController>(TradeController());
+    Get.put<StockController>(StockController());
   }
 }

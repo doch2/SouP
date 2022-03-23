@@ -3,6 +3,7 @@ import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
 import 'package:soup/controllers/trade_controller.dart';
 import 'package:soup/widget/bottomdesign.dart';
+import 'package:soup/widget/soupbutton.dart';
 
 import '../themes/color_theme.dart';
 import '../themes/text_theme.dart';
@@ -142,23 +143,13 @@ class TradeSetting extends GetWidget<TradeController> {
                   )),
             ),
             Positioned(
-              bottom: _height * 0.15,
-              child: GestureDetector(
-                onTap: () => controller.storeTradeSetting(),
-                child: Container(
-                  width: _width * 0.45,
-                  height: _height * 0.05,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(16),
-                      boxShadow: [
-                        BoxShadow(
-                            blurRadius: 10, spreadRadius: 3, color: blueTwo)
-                      ]),
-                  child: Center(child: Text("설정 저장하기")),
-                ),
-              ),
-            )
+                bottom: _height * 0.15,
+                child: SoupButton(
+                  width: _width,
+                  height: _height,
+                  text: "설정 변경하기",
+                  onTap: () => controller.storeTradeSetting(),
+                ))
           ],
         ),
       )),
