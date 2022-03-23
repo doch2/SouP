@@ -42,6 +42,15 @@ class StockPage extends StatelessWidget {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Obx(() => controller.isRealtime.value
+                        ? Card(
+                            color: Colors.green,
+                            child: Text(
+                              "실시간",
+                              style: loginBoxTitle,
+                            ),
+                          )
+                        : Card()),
                     Text(
                       "${controller.stockInform.value.stockName}",
                       style: homeHello,
