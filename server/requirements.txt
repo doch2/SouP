@@ -1,0 +1,6 @@
+pandas
+numpy
+keras
+mpl_finance
+pykrx
+beautifulsoup4
