@@ -15,7 +15,7 @@ import datetime
 import os
 import json
 
-rootDirPath = ""
+rootDirPath = "/tmp/"
 
 fileDownloadUrl = {}
 
@@ -89,7 +89,7 @@ def getStockPriceData(ticker, priceKind): #priceKind: hour, day, week
 
 
       if len(price) != 400:
-        return None
+        return pd.DataFrame()
 
 
       finalResult = pd.DataFrame(columns=['시가', '고가', '저가', '종가', '거래량'])
@@ -175,11 +175,15 @@ def lambda_handler(event, context):
       dayDf = getStockPriceData(ticker, "day")
       weekDf = getStockPriceData(ticker, "week")
 
+      if hourDf.empty:
+        continue
+
       hourArray = dayModel.predict(np.array(getChartPictureArray(hourDf)))
       dayArray = weekModel.predict(getChartPictureArray(dayDf))
       weekArray = monthModel.predict(getChartPictureArray(weekDf))
 
       percentage = (stockPredictModel.predict([hourArray, dayArray, weekArray]))[0][0]
+      print(ticker + ": " + str(percentage))
   
   return {
       'statusCode': 200,
