@@ -1,0 +1,7 @@
+pandas
+numpy
+keras
+tensorflow
+mpl_finance
+pykrx
+beautifulsoup4

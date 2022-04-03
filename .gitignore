@@ -1,2 +1,7 @@
 # Miscellaneous
 .DS_Store
+
+url.env
+
+server/models/
+server/datasets/
