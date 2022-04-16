@@ -4,9 +4,9 @@ class StockModel {
 
   StockModel({this.stockId, this.name});
 
-  StockModel.fromJson({Json}) {
-    stockId = Json["stockId"];
-    name = Json["name"];
+  StockModel.fromJson({json}) {
+    stockId = json["stockId"];
+    name = json["name"];
   }
 }
 

@@ -25,7 +25,7 @@ class SoupButton extends StatelessWidget {
           decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(16),
-              boxShadow: [
+              boxShadow: const [
                 BoxShadow(blurRadius: 10, spreadRadius: 3, color: blueTwo)
               ]),
           child: Center(child: Text(text))),

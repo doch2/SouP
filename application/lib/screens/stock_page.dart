@@ -43,14 +43,14 @@ class StockPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Obx(() => controller.isRealtime.value
-                        ? Card(
+                        ? const Card(
                             color: Colors.green,
                             child: Text(
                               "실시간",
                               style: loginBoxTitle,
                             ),
                           )
-                        : Card()),
+                        : const Card()),
                     Text(
                       "${controller.stockInform.value.stockName}",
                       style: homeHello,
@@ -93,7 +93,7 @@ class StockPage extends StatelessWidget {
                 child: Center(
                     child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: const [
                     Text("나가기"),
                     SizedBox(
                       width: 10,

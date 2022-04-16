@@ -26,7 +26,7 @@ class StockController extends GetxController with StateMixin {
   }
 
   @override
-  void onClosed() async {
+  void onClose() async {
     super.onClose();
   }
 

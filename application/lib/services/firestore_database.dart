@@ -18,7 +18,7 @@ class FirestoreDatabase {
       });
       return true;
     } catch (e) {
-      print(e);
+      //print(e);
       return false;
     }
   }
@@ -29,31 +29,35 @@ class FirestoreDatabase {
           await _firestore.collection("users").doc(uid).get();
       return UserModel?.fromDocumentSnapshot(documentSnapshot: _doc);
     } catch (e) {
-      print(e);
+      //print(e);
       rethrow;
     }
   }
 
   setUserTradeStatus(bool isTradeOn) async {
     try {
-      await _firestore.collection("users").doc(Get.find<AuthController>().user?.uid).update({
+      await _firestore
+          .collection("users")
+          .doc(Get.find<AuthController>().user?.uid)
+          .update({
         "isTradeOn": isTradeOn,
       });
-
     } catch (e) {
-      print(e);
+      //print(e);
       rethrow;
     }
   }
 
   setUserTradeSetting(Map newSetting) async {
     try {
-      await _firestore.collection("users").doc(Get.find<AuthController>().user?.uid).update({
+      await _firestore
+          .collection("users")
+          .doc(Get.find<AuthController>().user?.uid)
+          .update({
         "tradeSetting": newSetting,
       });
-
     } catch (e) {
-      print(e);
+      //print(e);
       rethrow;
     }
   }

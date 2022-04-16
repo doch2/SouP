@@ -6,7 +6,7 @@ import 'package:soup/controllers/user_controller.dart';
 import 'package:soup/services/firestore_database.dart';
 
 class TradeController extends GetxController {
-  FirestoreDatabase _firestoreDatabase = FirestoreDatabase();
+  final FirestoreDatabase _firestoreDatabase = FirestoreDatabase();
   final AuthController _authController = Get.find<AuthController>();
   final UserController userController = Get.find<UserController>();
 
@@ -22,11 +22,12 @@ class TradeController extends GetxController {
   RxBool isTradeTurnOn = true.obs;
   RxString isTradingMethod = "".obs;
 
+  @override
   void onInit() {
     stockAmountfocusnode.addListener(() {
       scroll.animateTo(
         -10000,
-        duration: Duration(milliseconds: 200),
+        duration: const Duration(milliseconds: 200),
         curve: Curves.easeInOut,
       );
     });
@@ -34,6 +35,7 @@ class TradeController extends GetxController {
     super.onInit();
   }
 
+  @override
   void onClose() {
     super.onClose();
   }
@@ -63,7 +65,7 @@ class TradeController extends GetxController {
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
       timeInSecForIosWeb: 1,
-      backgroundColor: Color(0xE6FFFFFF),
+      backgroundColor: const Color(0xE6FFFFFF),
       textColor: Colors.black,
       fontSize: 13.0);
 }

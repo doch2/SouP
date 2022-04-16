@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:soup/controllers/auth_controller.dart';
 import 'package:soup/controllers/user_controller.dart';
@@ -25,7 +24,7 @@ class MyProfile extends GetWidget<UserController> {
         children: [
           BottomDesign(width: _width, height: _height),
           Padding(
-            padding: EdgeInsets.all(24),
+            padding: const EdgeInsets.all(24),
             child: Column(children: [
               footer(),
               userInfo(authController),
@@ -58,7 +57,7 @@ class MyProfile extends GetWidget<UserController> {
       child: Center(
           child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
-        children: [
+        children: const [
           Text("Logout"),
           SizedBox(
             width: 10,
@@ -76,7 +75,7 @@ class MyProfile extends GetWidget<UserController> {
         Column(
           //crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CircleAvatar(
+            const CircleAvatar(
               child: FlutterLogo(size: 50),
               radius: 50,
             ),
@@ -98,7 +97,7 @@ class MyProfile extends GetWidget<UserController> {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
-        children: [
+        children: const [
           Text(
             "현재 예수금",
             style: homeUserName,

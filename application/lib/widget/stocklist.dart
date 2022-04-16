@@ -25,10 +25,10 @@ class StockList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        child: Container(
+        child: SizedBox(
           width: width * 0.8,
           child: Padding(
-            padding: EdgeInsets.all(24),
+            padding: const EdgeInsets.all(24),
             child: Column(
               children: [
                 Center(
@@ -37,7 +37,7 @@ class StockList extends StatelessWidget {
                     style: homeUserName,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Builder(builder: (context) {

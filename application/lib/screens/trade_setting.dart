@@ -27,11 +27,11 @@ class TradeSetting extends GetWidget<TradeController> {
           alignment: Alignment.center,
           children: [
             BottomDesign(width: _width, height: _height),
-            Container(width: _width, height: _height),
+            SizedBox(width: _width, height: _height),
             Positioned(
               top: _height * 0.15,
               left: _width * 0.1,
-              child: Text("현재 매매 상황", style: tradeSettingNowStatusTitle),
+              child: const Text("현재 매매 상황", style: tradeSettingNowStatusTitle),
             ),
             Positioned(
               top: _height * 0.15 + 25,
@@ -48,7 +48,7 @@ class TradeSetting extends GetWidget<TradeController> {
               left: _width * 0.1,
               child: Row(
                 children: [
-                  Text("매매 사용하기", style: tradeSettingMenuTitle),
+                  const Text("매매 사용하기", style: tradeSettingMenuTitle),
                   SizedBox(width: _width * 0.05),
                   FutureBuilder(
                       future: controller.checkUserTradeStatus(),
@@ -71,7 +71,7 @@ class TradeSetting extends GetWidget<TradeController> {
                             alignment: Alignment.center,
                             children: [
                               SizedBox(width: _width, height: _height * 0.4),
-                              Center(
+                              const Center(
                                   child: Text(
                                       "데이터를 정상적으로 불러오지 못했습니다. \n다시 시도해 주세요.",
                                       textAlign: TextAlign.center)),
@@ -84,7 +84,7 @@ class TradeSetting extends GetWidget<TradeController> {
                             children: [
                               SizedBox(
                                   width: _width * 0.1, height: _height * 0.03),
-                              Center(child: CircularProgressIndicator()),
+                              const Center(child: CircularProgressIndicator()),
                             ],
                           );
                         }
@@ -97,13 +97,13 @@ class TradeSetting extends GetWidget<TradeController> {
               left: _width * 0.1,
               child: Row(
                 children: [
-                  Text("매매할 주식의 상승 정확도", style: tradeSettingMenuTitle),
+                  const Text("매매할 주식의 상승 정확도", style: tradeSettingMenuTitle),
                   getNumTextField(
                       "%",
                       controller.accuracyPercentageTextController,
                       controller.accuracyPercentagefocusnode,
                       context),
-                  Text("이상", style: tradeSettingMenuTitle),
+                  const Text("이상", style: tradeSettingMenuTitle),
                 ],
               ),
             ),
@@ -114,7 +114,7 @@ class TradeSetting extends GetWidget<TradeController> {
                 children: [
                   getNumTextField("%", controller.tradePercentageTextController,
                       controller.tradePercentagefocusnode, context),
-                  Text("이상 상승/하락 시 매도", style: tradeSettingMenuTitle),
+                  const Text("이상 상승/하락 시 매도", style: tradeSettingMenuTitle),
                 ],
               ),
             ),
@@ -123,7 +123,7 @@ class TradeSetting extends GetWidget<TradeController> {
               left: _width * 0.1,
               child: Row(
                 children: [
-                  Text("분산 투자할 주식 개수", style: tradeSettingMenuTitle),
+                  const Text("분산 투자할 주식 개수", style: tradeSettingMenuTitle),
                   getNumTextField("입력", controller.stockAmountTextController,
                       controller.stockAmountfocusnode, context),
                 ],
@@ -134,7 +134,7 @@ class TradeSetting extends GetWidget<TradeController> {
               left: _width * 0.1,
               child: Obx(() => Row(
                     children: [
-                      Text("매매 방식", style: tradeSettingMenuTitle),
+                      const Text("매매 방식", style: tradeSettingMenuTitle),
                       SizedBox(width: _width * 0.04),
                       getChooseBox("시장가"),
                       SizedBox(width: _width * 0.03),

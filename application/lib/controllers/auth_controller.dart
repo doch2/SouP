@@ -10,22 +10,23 @@ import 'package:soup/services/firestore_database.dart';
 
 class AuthController extends GetxController {
   FirebaseAuth authInstance = FirebaseAuth.instance;
-  UserController _userController = Get.find<UserController>();
-  FirestoreDatabase _firestoreDatabase = FirestoreDatabase();
+  final UserController _userController = Get.find<UserController>();
+  final FirestoreDatabase _firestoreDatabase = FirestoreDatabase();
 
-  Rxn<User> _firebaseUser = Rxn<User>();
+  final Rxn<User> _firebaseUser = Rxn<User>();
   User? get user => _firebaseUser.value;
   Map loginUserInfo = {}; //userID, email, name
   RxString selectGroupName = "init".obs;
 
   RxBool isLogin = false.obs;
 
-
   @override
   onInit() async {
     _firebaseUser.bindStream(authInstance.authStateChanges());
     _firebaseUser.value = authInstance.currentUser;
-    if (user != null) { _userController.user = await _firestoreDatabase.getUser(user!.uid); }
+    if (user != null) {
+      _userController.user = await _firestoreDatabase.getUser(user!.uid);
+    }
   }
 
   void signInWithGoogle() async {
@@ -34,14 +35,15 @@ class AuthController extends GetxController {
 
     // Obtain the auth details from the request
     final GoogleSignInAuthentication? googleAuth =
-    await googleUser?.authentication;
+        await googleUser?.authentication;
 
     // Create a new credential
     final credential = GoogleAuthProvider.credential(
       accessToken: googleAuth?.accessToken,
       idToken: googleAuth?.idToken,
     );
-    UserCredential _authResult = await FirebaseAuth.instance.signInWithCredential(credential);
+    UserCredential _authResult =
+        await FirebaseAuth.instance.signInWithCredential(credential);
 
     loginUserInfo["userid"] = _authResult.user?.uid;
     loginUserInfo["email"] = googleUser?.email;
@@ -64,10 +66,9 @@ class AuthController extends GetxController {
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
-          backgroundColor: Color(0xE6FFFFFF),
+          backgroundColor: const Color(0xE6FFFFFF),
           textColor: Colors.black,
-          fontSize: 13.0
-      );
+          fontSize: 13.0);
     } on FirebaseAuthException catch (e) {
       Get.snackbar(
         "로그아웃 오류",
@@ -97,13 +98,13 @@ class AuthController extends GetxController {
         .get()
         .then((doc) async {
       if (doc.exists) {
-        print("User info is already exist");
-        Get.find<UserController>().user = await FirestoreDatabase().getUser(user?.uid);
+        //print("User info is already exist");
+        Get.find<UserController>().user =
+            await FirestoreDatabase().getUser(user?.uid);
       } else {
         await FirestoreDatabase().createNewUser(_user);
         Get.find<UserController>().user = _user;
       }
-    }
-    );
+    });
   }
 }

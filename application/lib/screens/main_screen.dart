@@ -5,7 +5,7 @@ import 'package:soup/screens/trade_setting.dart';
 import 'home.dart';
 
 class MainScreen extends StatefulWidget {
-  MainScreen({Key? key}) : super(key: key);
+  const MainScreen({Key? key}) : super(key: key);
 
   @override
   _MainScreenState createState() => _MainScreenState();
@@ -18,7 +18,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     List pages = [Home(), TradeSetting(), MyProfile()];
 
-    List<BottomNavigationBarItem> bottomNavigatorItem = [
+    List<BottomNavigationBarItem> bottomNavigatorItem = const [
       BottomNavigationBarItem(label: "홈", icon: Icon(Icons.home_filled)),
       BottomNavigationBarItem(label: "매매 설정", icon: Icon(Icons.settings)),
       BottomNavigationBarItem(label: "내 정보", icon: Icon(Icons.person)),
@@ -26,7 +26,7 @@ class _MainScreenState extends State<MainScreen> {
 
     return Scaffold(
         bottomNavigationBar: ClipRRect(
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
               topRight: Radius.circular(10), topLeft: Radius.circular(10)),
           child: BottomNavigationBar(
             backgroundColor: Colors.white,

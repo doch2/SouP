@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:soup/controllers/user_controller.dart';
 import 'package:soup/models/stock.dart';
@@ -27,7 +26,7 @@ class Home extends StatelessWidget {
         alignment: Alignment.center,
         children: [
           Container(
-            decoration: BoxDecoration(color: blueOne),
+            decoration: const BoxDecoration(color: blueOne),
             width: _width,
             height: _height,
           ),
@@ -38,7 +37,7 @@ class Home extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   "안녕하세요!",
                   style: homeHello,
                 ),
@@ -54,7 +53,7 @@ class Home extends StatelessWidget {
             left: _width * 0.1,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: const [
                 Text(
                   "현재 서버 상태",
                   style: homeHello,
