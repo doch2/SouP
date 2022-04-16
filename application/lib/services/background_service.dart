@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_background_service_android/flutter_background_service_android.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 Future<void> initializeService() async {
   final service = FlutterBackgroundService();
@@ -29,7 +30,12 @@ Future<void> initializeService() async {
 // run app from xcode, then from xcode menu, select Simulate Background Fetch
 bool onIosBackground(ServiceInstance service) {
   WidgetsFlutterBinding.ensureInitialized();
-  //print('FLUTTER BACKGROUND FETCH');
+  print('FLUTTER BACKGROUND FETCH');
+
+  Timer.periodic(const Duration(seconds: 1), (timer) {
+    print('IOS FLUTTER BACKGROUND FETCH : ${DateTime.now()}');
+  });
+
   return true;
 }
 
@@ -58,7 +64,7 @@ void onStart(ServiceInstance service) {
     }
 
     /// you can see this log in logcat
-    print('FLUTTER BACKGROUND SERVICE: ${DateTime.now()}');
+    print('FLUTTER BACKGROUND FETCH : ${DateTime.now()}');
 
     // test using external plugin
     service.invoke(
@@ -69,6 +75,16 @@ void onStart(ServiceInstance service) {
     );
   });
 }
+
+_showToast(String content) => Fluttertoast.showToast(
+    msg: content,
+    toastLength: Toast.LENGTH_SHORT,
+    gravity: ToastGravity.BOTTOM,
+    timeInSecForIosWeb: 1,
+    backgroundColor: const Color(0xE6FFFFFF),
+    textColor: Colors.black,
+    fontSize: 13.0);
+
 
 // class MyApp extends StatefulWidget {
 //   const MyApp({Key? key}) : super(key: key);
