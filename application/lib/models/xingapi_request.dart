@@ -49,7 +49,7 @@ class OrderStockRequestData {
   String _apiUrl = ApiReference().xingAPIUrl;
 
   late String _accountNum;
-  late int _inptPwd;
+  late String _inptPwd;
   late String _ticker;
   late int _amount;
   late int _price;
@@ -57,7 +57,7 @@ class OrderStockRequestData {
   late StockOrderQuoteType _OrdprcPtnCode;
 
   String get accountNum => _accountNum;
-  int get inptPwd => _inptPwd;
+  String get inptPwd => _inptPwd;
   String get ticker => _ticker;
   int get amount => _amount;
   int get price => _price;
@@ -67,7 +67,7 @@ class OrderStockRequestData {
 
   OrderStockRequestData({
     required String accountNum,
-    required int inptPwd,
+    required String inptPwd,
     required String ticker,
     required int amount,
     required int price,
@@ -89,7 +89,7 @@ class OrderStockRequestData {
         "bNext": false,
         "query": {
           "AcntNo": _accountNum,
-          "InptPwd": _inptPwd.toString(),
+          "InptPwd": _inptPwd,
           "IsuNo": ticker,
           "OrdQty": amount.toString(),
           "OrdPrc": price.toString(),
@@ -122,15 +122,15 @@ class GetAccountStockBalanceRequestData {
   String _apiUrl = ApiReference().xingAPIUrl;
 
   late String _accountNum;
-  late int _inptPwd;
+  late String _inptPwd;
 
   String get accountNum => _accountNum;
-  int get inptPwd => _inptPwd;
+  String get inptPwd => _inptPwd;
 
 
   GetAccountStockBalanceRequestData({
     required String accountNum,
-    required int inptPwd,}){
+    required String inptPwd,}){
     _accountNum = accountNum;
     _inptPwd = inptPwd;
   }
@@ -142,7 +142,7 @@ class GetAccountStockBalanceRequestData {
         "bNext": false,
         "query": {
           "accno": _accountNum,
-          "passwd": _inptPwd.toString(),
+          "passwd": _inptPwd,
           "prcgb": "",
           "chegb": "",
           "dangb": "",

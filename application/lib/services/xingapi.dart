@@ -5,7 +5,7 @@ import 'package:soup/services/api_reference.dart';
 
 class XingAPI {
   late String accountStr;
-  late int password;
+  late String password;
   XingAPI({required this.accountStr, required this.password});
 
   final Dio _dio = Get.find<Dio>();
