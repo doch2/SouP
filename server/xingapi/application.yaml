@@ -1,0 +1,26 @@
+server:
+  address: localhost
+  port: 7771
+
+logging:
+  config: ./config/logback.xml
+
+ebest:
+  resRootPath: 'C:\\eBEST\\xingAPI\\Res'
+  connect:
+    szServerIP: 'hts.ebestsec.co.kr'
+    nServerPort: 20001
+    connectTimeOut: 5000
+    requestReadTimeOut: 10000
+  user:
+    id: ''
+    pw: ''
+    cpwd: ''
+
+eureka:
+  client:
+    enabled: false
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone:
