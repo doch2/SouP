@@ -5,3 +5,4 @@ tensorflow
 mpl_finance
 pykrx
 beautifulsoup4
+firebase-admin
