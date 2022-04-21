@@ -13,9 +13,13 @@ import requests
 from bs4 import BeautifulSoup as bs
 import datetime
 import os
-import json
+import time
 
-rootDirPath = "/tmp/"
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
+
+rootDirPath = "/"
 
 fileDownloadUrl = {}
 
@@ -42,6 +46,7 @@ def getStockPriceData(ticker, priceKind): #priceKind: hour, day, week
 
     if priceKind == "hour":
       htmlSelection = []
+      date = []
       for i in range(1, 42):
         get_param = {
           'code': ticker,
@@ -66,12 +71,15 @@ def getStockPriceData(ticker, priceKind): #priceKind: hour, day, week
           previousIndex = i
         htmlSelection.append(tempResult)
 
+        date = date + soup.select('span.tah.p10.gray03')
+
         if "09:00" in originalData:
           break
-
+      
+      time = []
       price = []
       volume = []
-
+      
       l = len(htmlSelection)
       for i in range(0,l):
           htmla = htmlSelection[i]
@@ -86,21 +94,27 @@ def getStockPriceData(ticker, priceKind): #priceKind: hour, day, week
                       volume.append(SE(htmlb,m))
                   else:
                       pass
+      
+      for i in range(0, len(date)):
+        time.append(date[i].text)
+      
+      try:
+        tempDf = pd.DataFrame(columns=['가격', '거래량'])
+        for i in range(0, len(price)):
+          tempDf.loc[time[i]] = [price[i], volume[i]]
+        
+        
+        hourList = ["09", "10", "11", "12", "13", "14", "15"]
+        finalResult = pd.DataFrame(columns=['시가', '고가', '저가', '종가', '거래량'])
+        for i in hourList:
+          tempVar = (tempDf[tempDf.index.str.contains(i + ":")])['가격']
+          finalResult.loc[len(finalResult)] = [tempVar[0], max(tempVar), min(tempVar), tempVar[len(tempVar)-1], sum((tempDf[tempDf.index.str.contains(i)])['거래량'])]
+          previousIndex = i
+        
 
-
-      if len(price) != 400:
+        return finalResult
+      except IndexError as e:
         return pd.DataFrame()
-
-
-      finalResult = pd.DataFrame(columns=['시가', '고가', '저가', '종가', '거래량'])
-      previousIndex = 0
-      for i in range(0, 400, 60):
-        tempVar = price[previousIndex:(i+60)]
-        finalResult.loc[len(finalResult)] = [tempVar[0], max(tempVar), min(tempVar), tempVar[59], sum(volume[previousIndex:(i+60)])]
-        previousIndex = i
-
-
-      return finalResult
     elif priceKind == "day":
       return stock.get_market_ohlcv((datetime.datetime.now() - datetime.timedelta(days=6)).strftime("%Y%m%d"), todayDate, ticker)
     elif priceKind == "week":
@@ -145,47 +159,56 @@ def getChartPictureArray(tempPriceDataFrame):
     return im
 
 
-def lambda_handler(event, context):
-  createFolder(rootDirPath + "models/")
-  createFolder(rootDirPath + "datasets/")
-  fileDownload(fileDownloadUrl['dayModel'], rootDirPath + "models/soup_encoder_day_28_44_4.h5")
-  fileDownload(fileDownloadUrl['weekModel'], rootDirPath + "models/soup_encoder_week_28_44_4.h5")
-  fileDownload(fileDownloadUrl['monthModel'], rootDirPath + "models/soup_encoder_month_28_44_4.h5")
-  fileDownload(fileDownloadUrl['predictModel'], rootDirPath + "models/soup_stockPredict_model.h5")
-  fileDownload(fileDownloadUrl['tickerList'], rootDirPath + "datasets/kospi_ticker_without_etn.csv")
+cred = credentials.Certificate('soup-5b5a0-firebase-adminsdk-y0okj-0544671e41.json') #Firebase Admin 모듈 프로젝트 정보 입력
+firebase_admin.initialize_app(cred) #Firebase Admin 라이브러리 Init.
 
-  dayModel = load_model(rootDirPath + 'models/soup_encoder_day_28_44_4.h5')
-  weekModel = load_model(rootDirPath + 'models/soup_encoder_week_28_44_4.h5')
-  monthModel = load_model(rootDirPath + 'models/soup_encoder_month_28_44_4.h5')
-  stockPredictModel = load_model(rootDirPath + 'models/soup_stockPredict_model.h5')
+createFolder(rootDirPath + "models/")
+createFolder(rootDirPath + "datasets/")
+fileDownload(fileDownloadUrl['dayModel'], rootDirPath + "models/soup_encoder_day_28_44_4.h5")
+fileDownload(fileDownloadUrl['weekModel'], rootDirPath + "models/soup_encoder_week_28_44_4.h5")
+fileDownload(fileDownloadUrl['monthModel'], rootDirPath + "models/soup_encoder_month_28_44_4.h5")
+fileDownload(fileDownloadUrl['predictModel'], rootDirPath + "models/soup_stockPredict_model.h5")
+fileDownload(fileDownloadUrl['tickerList'], rootDirPath + "datasets/kospi_ticker_without_etn.csv")
+
+dayModel = load_model(rootDirPath + 'models/soup_encoder_day_28_44_4.h5')
+weekModel = load_model(rootDirPath + 'models/soup_encoder_week_28_44_4.h5')
+monthModel = load_model(rootDirPath + 'models/soup_encoder_month_28_44_4.h5')
+stockPredictModel = load_model(rootDirPath + 'models/soup_stockPredict_model.h5')
 
 
-  stockListWithoutEtn = pd.read_csv(rootDirPath + "datasets/kospi_ticker_without_etn.csv")['종목코드']
-  for ticker in stockListWithoutEtn:
-      newTicker = str(ticker)
-      if len(newTicker) < 6:
-          newTicker = ('0' * (6 - len(newTicker))) + newTicker
+stockListWithoutEtn = pd.read_csv(rootDirPath + "datasets/kospi_ticker_without_etn.csv")['종목코드']
+for ticker in stockListWithoutEtn:
+    newTicker = str(ticker)
+    if len(newTicker) < 6:
+        newTicker = ('0' * (6 - len(newTicker))) + newTicker
 
-      index = stockListWithoutEtn.index[stockListWithoutEtn == ticker].tolist()[0]
+    index = stockListWithoutEtn.index[stockListWithoutEtn == ticker].tolist()[0]
 
-      stockListWithoutEtn.iloc[index] = newTicker
+    stockListWithoutEtn.iloc[index] = newTicker
 
-  for ticker in stockListWithoutEtn:
-      hourDf = getStockPriceData(ticker, "hour")
-      dayDf = getStockPriceData(ticker, "day")
-      weekDf = getStockPriceData(ticker, "week")
+result = {}
+for ticker in stockListWithoutEtn:
+  hourDf = getStockPriceData(ticker, "hour")
+  dayDf = getStockPriceData(ticker, "day")
+  weekDf = getStockPriceData(ticker, "week")
 
-      if hourDf.empty:
-        continue
+  time.sleep(1) #크롤링 차단 방지를 위한 일시정지
 
-      hourArray = dayModel.predict(np.array(getChartPictureArray(hourDf)))
-      dayArray = weekModel.predict(getChartPictureArray(dayDf))
-      weekArray = monthModel.predict(getChartPictureArray(weekDf))
+  if hourDf.empty:
+    print(ticker + ": error")
+    continue
 
-      percentage = (stockPredictModel.predict([hourArray, dayArray, weekArray]))[0][0]
-      print(ticker + ": " + str(percentage))
-  
-  return {
-      'statusCode': 200,
-      'body': json.dumps('Hello from Lambda!')
-  }
+  hourArray = dayModel.predict(np.array(getChartPictureArray(hourDf)))
+  dayArray = weekModel.predict(getChartPictureArray(dayDf))
+  weekArray = monthModel.predict(getChartPictureArray(weekDf))
+
+  percentage = (stockPredictModel.predict([hourArray, dayArray, weekArray]))[0][0]
+  result[ticker] = percentage * 100
+  print(ticker + ": " + str(percentage))
+
+todayDate = str(datetime.date.today()).replace("-", "")
+db = firestore.client()
+doc_ref = db.collection(u'stock-predict').document(todayDate[0:6])
+doc_ref.update({
+    todayDate[6:8]: result,
+})
