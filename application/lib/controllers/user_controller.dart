@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:soup/models/user.dart';
+import 'package:soup/services/account.dart';
 import 'package:soup/services/xingapi.dart';
 
 class UserController extends GetxController with StateMixin {
@@ -23,12 +24,13 @@ class UserController extends GetxController with StateMixin {
 
   Future<void> refreshData() async {
     change(null, status: RxStatus.loading());
-    getDeposit();
+    await getDeposit();
     change(null, status: RxStatus.success());
   }
 
   Future<void> getDeposit() async {
-    final response = await XingAPI(accountStr: "20571759101", password: "0982")
+    final response = await XingAPI(
+            accountStr: Account().account, password: Account().password)
         .getAccountStockBalance();
     print(response);
     if (response['success'] == true) {

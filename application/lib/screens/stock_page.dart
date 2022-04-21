@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:soup/controllers/stock_controller.dart';
 import 'package:soup/models/stock.dart';
 import 'package:soup/models/xingapi_request.dart';
+import 'package:soup/services/account.dart';
 import 'package:soup/services/xingapi.dart';
 import 'package:soup/themes/text_theme.dart';
 import 'package:soup/widget/bottomdesign.dart';
@@ -77,7 +78,7 @@ class StockPage extends StatelessWidget {
                 text: "주식 구매하기",
                 onTap: () async {
                   print("구매");
-                  await XingAPI(accountStr: "20571759101", password: "0982")
+                  await XingAPI(accountStr: Account().account, password: Account().password)
                       .orderStock(
                           controller.ticker.value,
                           1,
