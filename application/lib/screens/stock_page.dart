@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:soup/controllers/stock_controller.dart';
 import 'package:soup/models/stock.dart';
+import 'package:soup/models/xingapi_request.dart';
+import 'package:soup/services/xingapi.dart';
 import 'package:soup/themes/text_theme.dart';
 import 'package:soup/widget/bottomdesign.dart';
 import 'package:soup/widget/soupbutton.dart';
@@ -73,6 +75,16 @@ class StockPage extends StatelessWidget {
                 width: _width,
                 height: _height,
                 text: "주식 구매하기",
+                onTap: () async {
+                  print("구매");
+                  await XingAPI(accountStr: "20571759101", password: "0982")
+                      .orderStock(
+                          controller.ticker.value,
+                          1,
+                          controller.stockInform.value.bid!.toInt(),
+                          StockOrderType.buy,
+                          StockOrderQuoteType.marketOrder);
+                },
               ),
               const SizedBox(
                 height: 16,
