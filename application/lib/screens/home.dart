@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:soup/controllers/recommand_controller.dart';
 import 'package:soup/controllers/user_controller.dart';
-import 'package:soup/models/stock.dart';
 import 'package:soup/themes/color_theme.dart';
 import 'package:soup/themes/text_theme.dart';
 import 'package:soup/widget/bottomdesign.dart';
@@ -12,6 +12,7 @@ class Home extends StatelessWidget {
 
   late double _height, _width;
   late UserController userController;
+  late RecommandController recommandController;
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +20,7 @@ class Home extends StatelessWidget {
     _width = MediaQuery.of(context).size.width;
 
     userController = Get.find<UserController>();
+    recommandController = Get.find<RecommandController>();
 
     return Scaffold(
       body: Center(
@@ -66,22 +68,16 @@ class Home extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: _height * 0.325,
-            left: _width * 0.1,
-            child: StockList(
-              height: _height,
-              width: _width,
-              list: [
-                StockModel(stockId: "005930", name: "삼성전자"),
-                StockModel(stockId: "035720", name: "카카오"),
-                StockModel(stockId: "247540", name: "에코프로비엠"),
-                StockModel(stockId: "005380", name: "현대차"),
-                StockModel(stockId: "089980", name: "상아프론테크"),
-                StockModel(stockId: "900110", name: "이스트아시아홀딩스")
-              ],
-              recommanded: true,
-            ),
-          ),
+              top: _height * 0.325,
+              left: _width * 0.1,
+              child: Obx(
+                () => StockList(
+                  height: _height,
+                  width: _width,
+                  list: recommandController.recommandedStock.value ?? [],
+                  recommanded: true,
+                ),
+              )),
         ],
       )),
     );
