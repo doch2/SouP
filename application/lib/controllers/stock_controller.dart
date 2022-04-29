@@ -42,6 +42,11 @@ class StockController extends GetxController with StateMixin {
     Get.dialog(StockPage());
   }
 
+  loadStockData() {
+    final body = json.decode(info.value.res.body);
+    stockInform.value = StockInformation.fromJson(body: body);
+  }
+
   String getCurrentState() {
     if (stockInform.value.marketState == "CLOSED") {
       return "장이 마감되었습니다";

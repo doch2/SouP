@@ -39,10 +39,7 @@ class StockPage extends StatelessWidget {
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               controller.obx((state) {
-                final res = controller.info.value.res;
-                final body = json.decode(res.body);
-                controller.stockInform.value =
-                    StockInformation.fromJson(body: body);
+                controller.loadStockData();
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
