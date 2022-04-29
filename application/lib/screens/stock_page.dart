@@ -78,7 +78,9 @@ class StockPage extends StatelessWidget {
                 text: "주식 구매하기",
                 onTap: () async {
                   print("구매");
-                  await XingAPI(accountStr: Account().account, password: Account().password)
+                  await XingAPI(
+                          accountStr: Account.account,
+                          password: Account.password)
                       .orderStock(
                           controller.ticker.value,
                           1,

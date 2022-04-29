@@ -29,9 +29,9 @@ class UserController extends GetxController with StateMixin {
   }
 
   Future<void> getDeposit() async {
-    final response = await XingAPI(
-            accountStr: Account().account, password: Account().password)
-        .getAccountStockBalance();
+    final response =
+        await XingAPI(accountStr: Account.account, password: Account.password)
+            .getAccountStockBalance();
     print(response);
     if (response['success'] == true) {
       print("SSS! : ${response['content']}");
