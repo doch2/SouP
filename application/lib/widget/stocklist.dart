@@ -24,7 +24,7 @@ class StockList extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
         onTap: () {
-          controller.getReady(name, stockId);
+          controller.moveStockData(name, stockId);
         },
         child: Row(
           children: [

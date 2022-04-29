@@ -34,9 +34,8 @@ class StockController extends GetxController with StateMixin {
     super.onClose();
   }
 
-  getReady(String name, String stockId) {
+  moveStockData(String name, String stockId) {
     _showToast("${name}(${stockId})로 이동");
-
     ticker.value = stockId;
     getStock();
     Get.dialog(StockPage());
