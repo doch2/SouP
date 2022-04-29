@@ -43,15 +43,12 @@ class StockList extends StatelessWidget {
                 Builder(builder: (context) {
                   List<Widget> children = [];
 
-                  for (int i = 0; i < list.length; i++) {
+                  for (int i = 0; i < 5; i++) {
                     children.add(Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: GestureDetector(
                         onTap: () {
-                          _showToast("${list[i].name}(${list[i].stockId})로 이동");
-                          controller.ticker.value = list[i].stockId!;
-                          controller.getStock();
-                          Get.dialog(StockPage());
+                          controller.getReady(list[i].name!, list[i].stockId!);
                         },
                         child: Row(
                           children: [
@@ -66,6 +63,8 @@ class StockList extends StatelessWidget {
                     ));
                   }
 
+                  children.add(Text("더보기"));
+
                   return Column(
                     children: children,
                   );
@@ -75,13 +74,4 @@ class StockList extends StatelessWidget {
           ),
         ));
   }
-
-  _showToast(String content) => Fluttertoast.showToast(
-      msg: content,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      timeInSecForIosWeb: 1,
-      backgroundColor: const Color(0xE6FFFFFF),
-      textColor: Colors.black,
-      fontSize: 13.0);
 }
