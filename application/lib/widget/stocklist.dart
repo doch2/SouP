@@ -19,6 +19,26 @@ class StockList extends StatelessWidget {
 
   StockController controller = Get.find<StockController>();
 
+  Widget _stockData(String name, String stockId) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: GestureDetector(
+        onTap: () {
+          controller.getReady(name, stockId);
+        },
+        child: Row(
+          children: [
+            const Icon(Icons.abc),
+            Text(
+              "${name}",
+              style: const TextStyle(fontSize: 17),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _longerStockList() {
     ScrollController _scrollController = ScrollController();
     _scrollController.addListener(() {
@@ -34,23 +54,8 @@ class StockList extends StatelessWidget {
       body: ListView.builder(
         controller: _scrollController,
         itemCount: list.length,
-        itemBuilder: (conetext, int i) => Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: GestureDetector(
-            onTap: () {
-              controller.getReady(list[i].name!, list[i].stockId!);
-            },
-            child: Row(
-              children: [
-                const Icon(Icons.abc),
-                Text(
-                  "${list[i].name}",
-                  style: const TextStyle(fontSize: 17),
-                )
-              ],
-            ),
-          ),
-        ),
+        itemBuilder: (conetext, int i) =>
+            _stockData(list[i].name!, list[i].stockId!),
       ),
     );
   }
@@ -80,27 +85,11 @@ class StockList extends StatelessWidget {
                   int flag = list.isEmpty ? 0 : 5;
 
                   for (int i = 0; i < flag; i++) {
-                    children.add(Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: GestureDetector(
-                        onTap: () {
-                          controller.getReady(list[i].name!, list[i].stockId!);
-                        },
-                        child: Row(
-                          children: [
-                            const Icon(Icons.abc),
-                            Text(
-                              "${list[i].name}",
-                              style: const TextStyle(fontSize: 17),
-                            )
-                          ],
-                        ),
-                      ),
-                    ));
+                    children.add(_stockData(list[i].name!, list[i].stockId!));
                   }
 
                   children.add(InkWell(
-                    child: Text("더보기"),
+                    child: const Text("더보기"),
                     onTap: () {
                       Get.dialog(_longerStockList());
                     },
