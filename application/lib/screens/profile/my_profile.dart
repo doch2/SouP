@@ -48,7 +48,10 @@ class MyProfile extends GetWidget<UserController> {
           child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: const [
-          Text("Logout"),
+          Text(
+            "Logout",
+            style: homeNormal,
+          ),
           SizedBox(
             width: 10,
           ),
@@ -75,7 +78,7 @@ class MyProfile extends GetWidget<UserController> {
             ),
             Text(
               "${authController.user!.email}",
-              style: homeHello,
+              style: homeNormal,
             ),
           ],
         ),
@@ -95,7 +98,7 @@ class MyProfile extends GetWidget<UserController> {
           userController.obx(
               (state) => Text(
                     "${userController.userTardyAmount.value}원",
-                    style: homeHello,
+                    style: homeNormal,
                   ),
               onLoading: const CircularProgressIndicator())
         ],

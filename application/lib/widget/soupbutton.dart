@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:soup/themes/color_theme.dart';
+import 'package:soup/themes/text_theme.dart';
 
 class SoupButton extends StatelessWidget {
   const SoupButton(
@@ -28,7 +29,11 @@ class SoupButton extends StatelessWidget {
               boxShadow: const [
                 BoxShadow(blurRadius: 10, spreadRadius: 3, color: blueTwo)
               ]),
-          child: Center(child: Text(text))),
+          child: Center(
+              child: Text(
+            text,
+            style: homeNormal,
+          ))),
     );
   }
 }

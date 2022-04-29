@@ -7,6 +7,7 @@ import 'package:soup/models/stock.dart';
 import 'package:soup/models/xingapi_request.dart';
 import 'package:soup/services/account.dart';
 import 'package:soup/services/xingapi.dart';
+import 'package:soup/themes/color_theme.dart';
 import 'package:soup/themes/text_theme.dart';
 import 'package:soup/widget/bottomdesign.dart';
 import 'package:soup/widget/soupbutton.dart';
@@ -77,7 +78,6 @@ class StockPage extends StatelessWidget {
                 height: _height,
                 text: "주식 구매하기",
                 onTap: () async {
-                  print("구매");
                   await XingAPI(
                           accountStr: Account.account,
                           password: Account.password)
@@ -109,11 +109,16 @@ class StockPage extends StatelessWidget {
                     child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const [
-                    Text("나가기"),
+                    Text(
+                      "나가기",
+                      style: homeNormal,
+                    ),
                     SizedBox(
                       width: 10,
                     ),
-                    Icon(Icons.logout)
+                    Icon(
+                      Icons.logout,
+                    )
                   ],
                 )),
               ),

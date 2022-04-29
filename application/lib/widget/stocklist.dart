@@ -31,7 +31,7 @@ class StockList extends StatelessWidget {
             const Icon(Icons.abc),
             Text(
               "${name}",
-              style: const TextStyle(fontSize: 17),
+              style: homeNormal,
             )
           ],
         ),
@@ -89,7 +89,10 @@ class StockList extends StatelessWidget {
                   }
 
                   children.add(InkWell(
-                    child: const Text("더보기"),
+                    child: const Text(
+                      "더보기",
+                      style: homeNormal,
+                    ),
                     onTap: () {
                       Get.dialog(_longerStockList());
                     },
