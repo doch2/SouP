@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:soup/controllers/stock_controller.dart';
 import 'package:soup/models/stock.dart';
-import 'package:soup/screens/stock_page.dart';
 import 'package:soup/themes/text_theme.dart';
 
 class StockList extends StatelessWidget {
@@ -20,6 +18,42 @@ class StockList extends StatelessWidget {
       : super(key: key);
 
   StockController controller = Get.find<StockController>();
+
+  Widget _longerStockList() {
+    ScrollController _scrollController = ScrollController();
+    _scrollController.addListener(() {
+      if (_scrollController.position.maxScrollExtent ==
+          _scrollController.position.pixels) {}
+    });
+
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Get.back(),
+        child: const Icon(Icons.backspace),
+      ),
+      body: ListView.builder(
+        controller: _scrollController,
+        itemCount: list.length,
+        itemBuilder: (conetext, int i) => Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: GestureDetector(
+            onTap: () {
+              controller.getReady(list[i].name!, list[i].stockId!);
+            },
+            child: Row(
+              children: [
+                const Icon(Icons.abc),
+                Text(
+                  "${list[i].name}",
+                  style: const TextStyle(fontSize: 17),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +77,9 @@ class StockList extends StatelessWidget {
                 Builder(builder: (context) {
                   List<Widget> children = [];
 
-                  for (int i = 0; i < 5; i++) {
+                  int flag = list.isEmpty ? 0 : 5;
+
+                  for (int i = 0; i < flag; i++) {
                     children.add(Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: GestureDetector(
@@ -63,7 +99,12 @@ class StockList extends StatelessWidget {
                     ));
                   }
 
-                  children.add(Text("더보기"));
+                  children.add(InkWell(
+                    child: Text("더보기"),
+                    onTap: () {
+                      Get.dialog(_longerStockList());
+                    },
+                  ));
 
                   return Column(
                     children: children,
