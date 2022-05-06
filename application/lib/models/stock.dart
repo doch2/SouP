@@ -27,3 +27,27 @@ class StockInformation {
     ask = body['quoteResponse']['result'][0]['ask']; //주식 살때
   }
 }
+
+class OwnedStock {
+  String? hname;
+  String? expcode;
+  String? price;
+  String? mamt; //매입 가격
+  String? sunikrt; //수익율
+  String? appamt; // 평가금액
+  OwnedStock(
+      {this.hname,
+      this.expcode,
+      this.price,
+      this.mamt,
+      this.sunikrt,
+      this.appamt});
+  OwnedStock.fromJson(json) {
+    hname = json['hname'];
+    expcode = json['expcode'];
+    price = json['price'];
+    mamt = json['mamt'];
+    sunikrt = json['sunikrt'];
+    appamt = json['appamt'];
+  }
+}
