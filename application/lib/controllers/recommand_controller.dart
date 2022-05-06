@@ -1,9 +1,6 @@
 import 'dart:collection';
 import 'dart:convert';
-import 'dart:isolate';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:soup/models/stock.dart';
@@ -15,19 +12,17 @@ class RecommandController extends GetxController with StateMixin {
   @override
   void onInit() async {
     change(null, status: RxStatus.loading());
-    stockName = await getStockName();
+    await getStockName();
     getRecommandedStock();
     change(null, status: RxStatus.success());
     super.onInit();
   }
 
   Future<dynamic> getStockName() async {
-    // Isolate.spawn((message) async {
-    // }, null);
     String jsonString =
         await rootBundle.loadString("assets/json/stock_name.json");
     final jsonResponse = json.decode(jsonString);
-    return jsonResponse;
+    stockName = jsonResponse;
   }
 
   Future getRecommandedStock() async {
@@ -42,7 +37,8 @@ class RecommandController extends GetxController with StateMixin {
       LinkedHashMap sortedData = LinkedHashMap.fromIterable(sortedKeys,
           key: (k) => k, value: (k) => data[k]);
       recommandedStock.value = sortedData.entries
-          .map((e) => StockModel(name: stockName[e.key], stockId: e.key))
+          .map(
+              (e) => StockModel(name: stockName[e.key] ?? "뭐앵", stockId: e.key))
           .toList();
     });
 
