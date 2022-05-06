@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:soup/models/stock.dart';
 import 'package:soup/models/user.dart';
 import 'package:soup/services/account.dart';
 import 'package:soup/services/xingapi.dart';
@@ -8,6 +9,9 @@ class UserController extends GetxController with StateMixin {
   UserModel get user => _userModel.value;
 
   RxBool isAllowAlert = true.obs;
+  Rx<UserInformation?> userInformation = Rx(null);
+  Rx<List<OwnedStock>> ownedStockList = Rx([]);
+
   RxInt userTardyAmount = 0.obs;
 
   set user(UserModel value) => _userModel.value = value;
@@ -32,11 +36,12 @@ class UserController extends GetxController with StateMixin {
     final response =
         await XingAPI(accountStr: Account.account, password: Account.password)
             .getAccountStockBalance();
-    print(response);
     if (response['success'] == true) {
-      print("SSS! : ${response['content']}");
-      userTardyAmount.value =
-          int.parse(response['content']['body']['t0424OutBlock'][0]['sunamt']);
+      userInformation.value = UserInformation.fromJson(
+          json: response['content']['body']['t0424OutBlock'][0]);
+      ownedStockList.value = List<OwnedStock>.from(response['content']['body']
+              ['t0424OutBlock1']
+          .map((json) => OwnedStock.fromJson(json)));
     }
   }
 }
