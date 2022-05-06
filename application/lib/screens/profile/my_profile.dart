@@ -4,6 +4,7 @@ import 'package:soup/controllers/auth_controller.dart';
 import 'package:soup/controllers/user_controller.dart';
 import 'package:soup/themes/text_theme.dart';
 import 'package:soup/widget/bottomdesign.dart';
+import 'package:soup/widget/stocklist.dart';
 
 class MyProfile extends GetWidget<UserController> {
   MyProfile({Key? key}) : super(key: key);
@@ -18,22 +19,25 @@ class MyProfile extends GetWidget<UserController> {
     _width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-        body: RefreshIndicator(
-      onRefresh: userController.refreshData,
-      child: SafeArea(
+        body: SafeArea(
+      child: RefreshIndicator(
+        onRefresh: userController.refreshData,
         child: Stack(
+          fit: StackFit.expand,
           children: [
             BottomDesign(width: _width, height: _height),
             Padding(
               padding: const EdgeInsets.all(24),
-              child: Column(children: [
-                footer(),
-                userInfo(),
-                getDeposit(),
-                Flexible(
-                  child: Container(),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    footer(),
+                    userInfo(),
+                    getDeposit(),
+                    _ownedStockList(_height, _width),
+                  ],
                 ),
-              ]),
+              ),
             ),
           ],
         ),
@@ -89,20 +93,42 @@ class MyProfile extends GetWidget<UserController> {
   Widget getDeposit() {
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: Column(
-        children: [
-          const Text(
-            "현재 예수금",
-            style: homeUserName,
-          ),
-          userController.obx(
-              (state) => Text(
-                    "${userController.userTardyAmount.value}원",
-                    style: homeNormal,
-                  ),
-              onLoading: const CircularProgressIndicator())
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            const Text(
+              "현재 예수금",
+              style: homeUserName,
+            ),
+            userController.obx(
+                (state) => Column(
+                      children: [
+                        Text(
+                            "보유 금액 ${int.parse(userController.userInformation.value!.userTardyAmount!) - int.parse(userController.userInformation.value!.purchaseAmount!)}원",
+                            style: homeNormal),
+                        Text(
+                            "현재 금액 ${userController.userInformation.value!.userTardyAmount}원",
+                            style: homeNormal),
+                        Text(
+                            "매수 금액 ${userController.userInformation.value!.purchaseAmount}원",
+                            style: homeNormal),
+                        Text(
+                            "평가 금액 ${userController.userInformation.value!.evaluateValue}원",
+                            style: homeNormal),
+                        Text(
+                            "평가 손익 ${userController.userInformation.value!.gainOrLoss}원",
+                            style: homeNormal),
+                      ],
+                    ),
+                onLoading: const CircularProgressIndicator())
+          ],
+        ),
       ),
     );
+  }
+
+  Widget _ownedStockList(height, width) {
+    return OwnedStockList(
+        height: height, width: width, list: controller.ownedStockList.value);
   }
 }
