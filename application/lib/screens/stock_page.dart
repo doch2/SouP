@@ -1,9 +1,9 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:soup/controllers/stock_controller.dart';
-import 'package:soup/models/stock.dart';
+import 'package:soup/models/xingapi_request.dart';
+import 'package:soup/services/account.dart';
+import 'package:soup/services/xingapi.dart';
 import 'package:soup/themes/text_theme.dart';
 import 'package:soup/widget/bottomdesign.dart';
 import 'package:soup/widget/soupbutton.dart';
@@ -35,10 +35,7 @@ class StockPage extends StatelessWidget {
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               controller.obx((state) {
-                final res = controller.info.value.res;
-                final body = json.decode(res.body);
-                controller.stockInform.value =
-                    StockInformation.fromJson(body: body);
+                controller.loadStockData();
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -72,7 +69,75 @@ class StockPage extends StatelessWidget {
               SoupButton(
                 width: _width,
                 height: _height,
+                text: "주식 장외구매하기",
+                onTap: () async {
+                  print(controller.stockInform.value.bid!.toInt());
+                  print(await XingAPI(
+                          accountStr: Account.account,
+                          password: Account.password)
+                      .orderStock(
+                          controller.ticker.value,
+                          1,
+                          0,
+                          StockOrderType.buy,
+                          StockOrderQuoteType.afterHourClosingPriceOrder));
+                },
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              SoupButton(
+                width: _width,
+                height: _height,
                 text: "주식 구매하기",
+                onTap: () async {
+                  print(controller.stockInform.value.bid!.toInt());
+                  print(await XingAPI(
+                          accountStr: Account.account,
+                          password: Account.password)
+                      .orderStock(controller.ticker.value, 1, 0,
+                          StockOrderType.buy, StockOrderQuoteType.marketOrder));
+                },
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              SoupButton(
+                width: _width,
+                height: _height,
+                text: "주식 장외판매하기",
+                onTap: () async {
+                  print(controller.stockInform.value.bid!.toInt());
+                  print(await XingAPI(
+                          accountStr: Account.account,
+                          password: Account.password)
+                      .orderStock(
+                          controller.ticker.value,
+                          1,
+                          0,
+                          StockOrderType.sell,
+                          StockOrderQuoteType.afterHourClosingPriceOrder));
+                },
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              SoupButton(
+                width: _width,
+                height: _height,
+                text: "주식 판매하기",
+                onTap: () async {
+                  print(controller.stockInform.value.bid!.toInt());
+                  print(await XingAPI(
+                          accountStr: Account.account,
+                          password: Account.password)
+                      .orderStock(
+                          controller.ticker.value,
+                          1,
+                          0,
+                          StockOrderType.sell,
+                          StockOrderQuoteType.marketOrder));
+                },
               ),
               const SizedBox(
                 height: 16,
@@ -94,11 +159,16 @@ class StockPage extends StatelessWidget {
                     child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const [
-                    Text("나가기"),
+                    Text(
+                      "나가기",
+                      style: homeNormal,
+                    ),
                     SizedBox(
                       width: 10,
                     ),
-                    Icon(Icons.logout)
+                    Icon(
+                      Icons.logout,
+                    )
                   ],
                 )),
               ),

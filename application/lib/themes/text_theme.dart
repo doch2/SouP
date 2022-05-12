@@ -17,6 +17,12 @@ const loginBoxTitle = TextStyle(
     fontFamily: 'NotoSansKR',
     fontWeight: FontWeight.w500);
 
+const homeNormal = TextStyle(
+    fontSize: 17,
+    color: Colors.black,
+    fontFamily: 'NotoSansKR',
+    fontWeight: FontWeight.w500);
+
 const homeHello = TextStyle(
     fontSize: 18,
     color: grayTwo,

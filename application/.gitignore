@@ -52,3 +52,4 @@ google-services.json
 
 #API Reference - URL, Token etc.
 lib/services/api_reference.dart
+account.dart

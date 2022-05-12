@@ -27,6 +27,7 @@ class AuthController extends GetxController {
     if (user != null) {
       _userController.user = await _firestoreDatabase.getUser(user!.uid);
     }
+    super.onInit();
   }
 
   void signInWithGoogle() async {

@@ -11,19 +11,20 @@ class XingAPI {
   final Dio _dio = Get.find<Dio>();
   String _apiUrl = ApiReference().xingAPIUrl;
 
-  orderStock(String ticker, int amount, int price, StockOrderType orderType, StockOrderQuoteType quoteType) async {
+  orderStock(String ticker, int amount, int price, StockOrderType orderType,
+      StockOrderQuoteType quoteType) async {
     try {
       Response response = await _dio.post(
         "$_apiUrl/ebest/queries",
         options: Options(contentType: "application/json"),
         data: OrderStockRequestData(
-            accountNum: accountStr,
-            inptPwd: password,
-            ticker: ticker,
-            amount: amount,
-            price: price,
-            BnsTpCode: orderType,
-            OrdprcPtnCode: quoteType,
+          accountNum: accountStr,
+          inptPwd: password,
+          ticker: ticker,
+          amount: amount,
+          price: price,
+          BnsTpCode: orderType,
+          OrdprcPtnCode: quoteType,
         ).toJson(),
       );
 
@@ -46,7 +47,7 @@ class XingAPI {
     }
   }
 
-  getAccountStockBalance() async {
+  Future<Map<String, dynamic>> getAccountStockBalance() async {
     try {
       Response response = await _dio.post(
         "$_apiUrl/ebest/queries",

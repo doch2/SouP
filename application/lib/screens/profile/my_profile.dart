@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:soup/controllers/auth_controller.dart';
 import 'package:soup/controllers/user_controller.dart';
-import 'package:soup/models/stock.dart';
 import 'package:soup/themes/text_theme.dart';
 import 'package:soup/widget/bottomdesign.dart';
 import 'package:soup/widget/stocklist.dart';
@@ -12,6 +11,7 @@ class MyProfile extends GetWidget<UserController> {
 
   late double _height, _width;
   final AuthController authController = Get.find<AuthController>();
+  final UserController userController = Get.find<UserController>();
 
   @override
   Widget build(BuildContext context) {
@@ -20,33 +20,27 @@ class MyProfile extends GetWidget<UserController> {
 
     return Scaffold(
         body: SafeArea(
-      child: Stack(
-        children: [
-          BottomDesign(width: _width, height: _height),
-          Padding(
-            padding: const EdgeInsets.all(24),
-            child: Column(children: [
-              footer(),
-              userInfo(authController),
-              getDeposit(),
-              StockList(
-                height: _height,
-                width: _width,
-                list: [
-                  StockModel(stockId: "005930", name: "삼성전자"),
-                  StockModel(stockId: "035720", name: "카카오"),
-                  StockModel(stockId: "247540", name: "에코프로비엠"),
-                  StockModel(stockId: "005380", name: "현대차"),
-                  StockModel(stockId: "089980", name: "상아프론테크"),
-                ],
-                recommanded: false,
+      child: RefreshIndicator(
+        onRefresh: userController.refreshData,
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            BottomDesign(width: _width, height: _height),
+            Padding(
+              padding: const EdgeInsets.all(24),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    footer(),
+                    userInfo(),
+                    getDeposit(),
+                    _ownedStockList(_height, _width),
+                  ],
+                ),
               ),
-              Flexible(
-                child: Container(),
-              ),
-            ]),
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
     ));
   }
@@ -58,7 +52,10 @@ class MyProfile extends GetWidget<UserController> {
           child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: const [
-          Text("Logout"),
+          Text(
+            "Logout",
+            style: homeNormal,
+          ),
           SizedBox(
             width: 10,
           ),
@@ -68,7 +65,7 @@ class MyProfile extends GetWidget<UserController> {
     );
   }
 
-  Widget userInfo(AuthController auth) {
+  Widget userInfo() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -80,12 +77,12 @@ class MyProfile extends GetWidget<UserController> {
               radius: 50,
             ),
             Text(
-              "${auth.user!.displayName}",
+              "${authController.user!.displayName}",
               style: homeUserName,
             ),
             Text(
-              "${auth.user!.email}",
-              style: homeHello,
+              "${authController.user!.email}",
+              style: homeNormal,
             ),
           ],
         ),
@@ -96,18 +93,42 @@ class MyProfile extends GetWidget<UserController> {
   Widget getDeposit() {
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: Column(
-        children: const [
-          Text(
-            "현재 예수금",
-            style: homeUserName,
-          ),
-          Text(
-            "1,000,000",
-            style: homeHello,
-          )
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            const Text(
+              "현재 예수금",
+              style: homeUserName,
+            ),
+            userController.obx(
+                (state) => Column(
+                      children: [
+                        Text(
+                            "보유 금액 ${int.parse(userController.userInformation.value!.userTardyAmount!) - int.parse(userController.userInformation.value!.purchaseAmount!)}원",
+                            style: homeNormal),
+                        Text(
+                            "현재 금액 ${userController.userInformation.value!.userTardyAmount}원",
+                            style: homeNormal),
+                        Text(
+                            "매수 금액 ${userController.userInformation.value!.purchaseAmount}원",
+                            style: homeNormal),
+                        Text(
+                            "평가 금액 ${userController.userInformation.value!.evaluateValue}원",
+                            style: homeNormal),
+                        Text(
+                            "평가 손익 ${userController.userInformation.value!.gainOrLoss}원",
+                            style: homeNormal),
+                      ],
+                    ),
+                onLoading: const CircularProgressIndicator())
+          ],
+        ),
       ),
     );
+  }
+
+  Widget _ownedStockList(height, width) {
+    return OwnedStockList(
+        height: height, width: width, list: controller.ownedStockList.value);
   }
 }

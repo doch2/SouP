@@ -1,9 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:soup/models/stock.dart';
+import 'package:soup/screens/stock_page.dart';
 import 'package:yahoofin/yahoofin.dart';
 
 class StockController extends GetxController with StateMixin {
@@ -28,6 +32,18 @@ class StockController extends GetxController with StateMixin {
   @override
   void onClose() async {
     super.onClose();
+  }
+
+  moveStockData(String name, String stockId) {
+    _showToast("${name}(${stockId})로 이동");
+    ticker.value = stockId;
+    getStock();
+    Get.dialog(StockPage());
+  }
+
+  loadStockData() {
+    final body = json.decode(info.value.res.body);
+    stockInform.value = StockInformation.fromJson(body: body);
   }
 
   String getCurrentState() {
@@ -73,4 +89,13 @@ class StockController extends GetxController with StateMixin {
       timer!.cancel();
     }
   }
+
+  _showToast(String content) => Fluttertoast.showToast(
+      msg: content,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: const Color(0xE6FFFFFF),
+      textColor: Colors.black,
+      fontSize: 13.0);
 }
